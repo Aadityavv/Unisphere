@@ -1,36 +1,26 @@
-name: AI Microservice CI
+name: Deploy AI Service
 
 on:
   push:
     paths:
-      - 'ai-service/**'
-  pull_request:
-    paths:
-      - 'ai-service/**'
+      - "ai-service/**"
+      - ".github/workflows/ai.yml"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Install Dependencies
+      - name: Build and Push Image
         run: |
-          cd ai-service
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/unisphere-ai-service:latest ./ai-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/unisphere-ai-service:latest
 
-      - name: Run Lint (optional)
-        run: |
-          cd ai-service
-          python -m flake8 . || echo "Lint warnings"
-
-      - name: Docker Build
-        run: docker build -t ai-service ./ai-service
+      - name: Trigger Render Deploy
+        run: curl -X GET "${{ secrets.RENDER_AI_DEPLOY_HOOK }}"

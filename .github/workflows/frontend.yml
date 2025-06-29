@@ -1,17 +1,26 @@
-name: Frontend CI
+name: Deploy Frontend
 
 on:
   push:
     paths:
-      - 'frontend/**'
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Build Frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --confirm --cwd frontend
