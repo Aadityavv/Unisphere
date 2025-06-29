@@ -1,6 +1,20 @@
-# Node Backend
+# Base image
 FROM node:18
+
+# Set working directory
 WORKDIR /app
-COPY . .
+
+# Copy only package.json and package-lock.json first (for better cache)
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
-CMD ["npm", "start"]
+
+# Copy rest of the application files
+COPY . .
+
+# Expose port (optional but good for clarity)
+EXPOSE 5000
+
+# Start server
+CMD ["node", "server.js"]
