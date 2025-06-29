@@ -1,6 +1,23 @@
-# 🪐 UniSphere – Smart Campus Events & Clubs Hub
+# 🌐 UniSphere: Full Stack Platform with CI/CD
 
-UniSphere is a full-stack smart campus event management system designed for universities. It enables students, faculty, and admins to post, manage, and attend events — with features like QR-based attendance, digital passes, AI-powered recommendations, and analytics dashboards.
+Welcome to the UniSphere project! This is a full-stack smart campus event management system designed for universities with **CI/CD fully automated** via **GitHub Actions**. It enables students, faculty, and admins to post, manage, and attend events — with features like QR-based attendance, digital passes, AI-powered recommendations, and analytics dashboards.
+
+**Deployment Stack:**
+- Frontend: React + Tailwind CSS → Deployed to **Vercel**
+- Backend: Node.js + Express → Deployed to **Render**
+- AI Service: Python + Flask → Deployed to **Render**
+
+> ✅ CI/CD handles everything from building Docker images → pushing to DockerHub → deploying to hosting platforms automatically.
+
+---
+
+## 🔗 Live Links
+
+| Service       | Link                                                                 |
+|---------------|----------------------------------------------------------------------|
+| Frontend      | https://uni-sphere-lqg8ta2tc-sam-altmans-projects-74c7fb6d.vercel.app/ |
+| Backend API   | https://unisphere-backend-b327.onrender.com/                        |
+| AI Service    | https://ai-service-aie5.onrender.com/                               |
 
 ---
 
@@ -30,6 +47,17 @@ UniSphere/
 ├── docker-compose.yml
 └── README.md
 ```
+
+---
+
+## 👷‍♀️ What You **Don't** Need to Do as a Developer
+
+| ❌ Task                            | ✅ Why You Don't Need It                      |
+| --------------------------------- | -------------------------------------------- |
+| Build Docker Images manually      | CI/CD does this automatically on every push  |
+| Deploy manually to Vercel/Render  | CI/CD redeploys live sites via Webhooks      |
+| Push images to DockerHub yourself | GitHub Actions handles DockerHub pushes      |
+| Manage `.env` secrets in repo     | Use `.env.example` and set real envs locally |
 
 ---
 
@@ -67,6 +95,41 @@ JWT_SECRET=super_secret_key
 
 ---
 
+## 📦 How CI/CD Works (GitHub Actions)
+
+We have **3 GitHub Action workflows** under `.github/workflows/`:
+
+| Workflow File  | Triggered When Files Are Pushed In | Deploys To |
+| -------------- | ---------------------------------- | ---------- |
+| `frontend.yml` | `frontend/**`                      | Vercel     |
+| `backend.yml`  | `backend/**`                       | Render     |
+| `ai.yml`       | `ai-service/**`                    | Render     |
+
+---
+
+## 🔁 Typical Workflow for Making Changes
+
+1. **Pull latest code**:
+   ```bash
+   git pull origin main
+   ```
+
+2. **Make your edits** in your assigned service folder.
+
+3. **Commit & push**:
+   ```bash
+   git add .
+   git commit -m "feat: updated feature in backend"
+   git push origin main
+   ```
+
+4. ✅ CI/CD will automatically:
+  * Build Docker image
+  * Push to DockerHub
+  * Deploy to hosting service (Vercel or Render)
+
+---
+
 ## 🐳 Docker Build Instructions
 
 ### ✅ A. Build All Services Together (Full Stack)
@@ -81,9 +144,9 @@ This will:
 
 * Build all 3 services: frontend, backend, ai-service
 * Run them on:
-    * Frontend: [http://localhost:3000](http://localhost:3000)
-    * Backend: [http://localhost:5000](http://localhost:5000)
-    * AI Service: [http://localhost:8000](http://localhost:8000)
+  * Frontend: [http://localhost:3000](http://localhost:3000)
+  * Backend: [http://localhost:5000](http://localhost:5000)
+  * AI Service: [http://localhost:8000](http://localhost:8000)
 
 ---
 
@@ -122,6 +185,18 @@ docker run -p 8000:8000 unisphere-ai
 
 ---
 
+## 📦 DockerHub Images
+
+| Service    | DockerHub Tag                      |
+|-----------|-----------------------------------|
+| Frontend   | `samaltman07/unisphere-frontend`   |
+| Backend    | `samaltman07/unisphere-backend`    |
+| AI Service | `samaltman07/unisphere-ai-service` |
+
+These images are auto-pushed via CI/CD.
+
+---
+
 ## 🔄 Running Locally Without Docker
 
 ### 🧪 Backend
@@ -129,15 +204,18 @@ docker run -p 8000:8000 unisphere-ai
 ```bash
 cd backend
 npm install
-node server.js
+node server.js  # runs on localhost:5000
 ```
+
+* Configure `.env` using `.env.example`
+* For shared DB, use the MongoDB URI from team
 
 ### 🧪 Frontend
 
 ```bash
 cd frontend
 npm install
-npm run dev
+npm run dev  # runs on localhost:5173
 ```
 
 ### 🧪 AI Service
@@ -147,8 +225,19 @@ cd ai-service
 python -m venv venv
 .\venv\Scripts\activate    # Windows
 pip install -r requirements.txt
-python app.py
+python app.py  # runs on localhost:8000
 ```
+
+---
+
+## 🛠 Useful Dev Commands
+
+| Task                                | Command                            |
+| ----------------------------------- | ---------------------------------- |
+| Run frontend locally                | `npm run dev` (in `frontend/`)     |
+| Run backend locally                 | `node server.js` (in `backend/`)   |
+| Run AI service locally              | `python app.py` (in `ai-service/`) |
+| Run all services via Docker Compose | `docker-compose up --build`        |
 
 ---
 
@@ -165,16 +254,6 @@ python app.py
 * Use feature branches and PRs for major changes
 * Keep `.env` secrets local
 * Commit early, commit often
-
----
-
-## 📬 Contact & Support
-
-For questions or onboarding:
-
-* 📧 Panshul: Frontend Queries
-* 📧 Aaditya: API + DB Design
-* 📧 Anurag: AI Logic + DevOps
 
 ---
 
