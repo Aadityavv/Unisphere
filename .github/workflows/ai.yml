@@ -1,0 +1,36 @@
+name: AI Microservice CI
+
+on:
+  push:
+    paths:
+      - 'ai-service/**'
+  pull_request:
+    paths:
+      - 'ai-service/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          cd ai-service
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Lint (optional)
+        run: |
+          cd ai-service
+          python -m flake8 . || echo "Lint warnings"
+
+      - name: Docker Build
+        run: docker build -t ai-service ./ai-service
