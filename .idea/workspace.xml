@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f0a5e0a-5ea0-429f-9f64-754f4c6c7165" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ai-service/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai-service/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-service/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.dockerignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +79,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751226697338</updated>
-      <workItem from="1751226698912" duration="3316000" />
+      <workItem from="1751226698912" duration="6025000" />
     </task>
     <servers />
   </component>
