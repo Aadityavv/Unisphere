@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Calendar, Users, Sparkles } from 'lucide-react';
 
 const HeroBanner = () => {
@@ -32,11 +33,13 @@ const HeroBanner = () => {
           </p>
 
           {/* CTA Button */}
-          <button className="group inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+          <Link to="/events"
+            className="group inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300"
+          >
             <Calendar className="h-5 w-5" />
             <span>Explore Events</span>
             <div className="ml-1 group-hover:translate-x-1 transition-transform duration-200">→</div>
-          </button>
+          </Link>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-16 border-t border-gray-200">

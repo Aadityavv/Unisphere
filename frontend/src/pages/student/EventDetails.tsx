@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/shared/Navbar';
 import Footer from '../../components/shared/Footer';
 import EventBanner from '../../components/student/EventBanner';
@@ -7,22 +8,25 @@ import RegisterButton from '../../components/student/RegisterButton';
 import StudentsAlsoAttended from '../../components/student/StudentsAlsoAttended';
 import { getEventById, getEvents, registerEvent } from '../../utils/apiMock';
 
-const EventDetails = ({ eventId = 1 }) => {
-  const [event, setEvent] = useState(null);
-  const [relatedEvents, setRelatedEvents] = useState([]);
+const EventDetails: React.FC = () => {
+  const { eventId } = useParams();
+  const navigate = useNavigate();
+  const id = Number(eventId);               // convert route param → number
+
+  const [event, setEvent] = useState<any | null>(null);
+  const [relatedEvents, setRelatedEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
         const [eventData, allEvents] = await Promise.all([
-          getEventById(eventId),
-          getEvents()
+          getEventById(id),
+          getEvents(),
         ]);
-        
+
         setEvent(eventData);
-        // Get related events (excluding current event)
-        const related = allEvents.filter(e => e.id !== eventId).slice(0, 3);
+        const related = allEvents.filter((e) => e.id !== id).slice(0, 3);
         setRelatedEvents(related);
       } catch (error) {
         console.error('Error fetching event details:', error);
@@ -31,92 +35,80 @@ const EventDetails = ({ eventId = 1 }) => {
       }
     };
 
-    fetchEventDetails();
-  }, [eventId]);
+    if (!isNaN(id)) fetchEventDetails();
+  }, [id]);
 
-  const handleRegister = async (id) => {
+  const handleRegister = async (eventId: number) => {
     try {
-      const result = await registerEvent(id);
-      if (result.success) {
-        setEvent(prev => ({ ...prev, registered: true }));
-      }
-    } catch (error) {
-      console.error('Error registering for event:', error);
+      const result = await registerEvent(eventId);
+      if (result.success) setEvent((prev) => prev && { ...prev, registered: true });
+    } catch (e) {
+      console.error('Error registering:', e);
     }
   };
 
-  const handleBack = () => {
-    console.log('Navigate back to events list');
-  };
+  const handleBack = () => navigate('/events');
 
+  /* ---------- Loading & Not-found states ---------- */
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <div className="flex items-center justify-center h-96">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+        <div className="min-h-screen bg-slate-50">
+          <Navbar />
+          <div className="flex items-center justify-center h-96">
+            <div className="animate-spin h-12 w-12 border-b-2 border-emerald-500 rounded-full" />
+          </div>
         </div>
-      </div>
     );
   }
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
+        <div className="min-h-screen bg-slate-50">
+          <Navbar />
+          <div className="max-w-7xl mx-auto px-4 py-16 text-center">
             <h1 className="text-2xl font-bold text-slate-900 mb-4">Event Not Found</h1>
-            <p className="text-slate-600">The event you're looking for doesn't exist.</p>
+            <p className="text-slate-600">The event you’re looking for doesn’t exist.</p>
           </div>
         </div>
-      </div>
     );
   }
 
+  /* ---------- Render page ---------- */
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navbar />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Event Banner */}
-        <EventBanner event={event} onBack={handleBack} />
+      <div className="min-h-screen bg-slate-50">
+        <Navbar />
 
-        {/* Event Meta Information */}
-        <EventMeta event={event} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <EventBanner event={event} onBack={handleBack} />
+          <EventMeta event={event} />
 
-        {/* Registration Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 mb-2">Join This Event</h2>
-              <p className="text-slate-600">
-                {event.registered 
-                  ? "You're registered for this event. Show your QR code at the entrance."
-                  : "Register now to secure your spot and receive event updates."
-                }
-              </p>
+          {/* Registration Card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900 mb-2">Join This Event</h2>
+                <p className="text-slate-600">
+                  {event.registered
+                      ? "You're registered! Show your QR code at the entrance."
+                      : 'Register now to secure your spot and receive updates.'}
+                </p>
+              </div>
+              <RegisterButton event={event} onRegister={handleRegister} />
             </div>
-            <RegisterButton event={event} onRegister={handleRegister} />
           </div>
-        </div>
 
-        {/* Event Description */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">About This Event</h2>
-          <p className="text-slate-600 leading-relaxed">
-            {event.description}
-          </p>
-        </div>
+          {/* Description */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-4">About This Event</h2>
+            <p className="text-slate-600 leading-relaxed">{event.description}</p>
+          </div>
 
-        {/* Related Events */}
-        {relatedEvents.length > 0 && (
-          <StudentsAlsoAttended events={relatedEvents} />
-        )}
-      </main>
+          {/* Related Events */}
+          {relatedEvents.length > 0 && <StudentsAlsoAttended events={relatedEvents} />}
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
   );
 };
 

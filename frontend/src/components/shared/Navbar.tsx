@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { GraduationCap, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
@@ -20,12 +21,18 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
+            <Link
+                to="/login"
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+            >
               Login
-            </button>
-            <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg hover:scale-105 transform transition-all duration-200">
+            </Link>
+            <Link
+                to="/signup"
+                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg hover:scale-105 transform transition-all duration-200"
+            >
               Sign Up
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -43,12 +50,20 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             <div className="flex flex-col space-y-3">
-              <button className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium text-left transition-colors duration-200">
+              <Link
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium text-left transition-colors duration-200"
+              >
                 Login
-              </button>
-              <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-200">
+              </Link>
+              <Link
+                  to="/signup"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-200"
+              >
                 Sign Up
-              </button>
+              </Link>
             </div>
           </div>
         )}

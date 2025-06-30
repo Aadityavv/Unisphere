@@ -328,3 +328,234 @@ export async function submitFeedback(eventId, feedback) {
     setTimeout(() => resolve({ success: true }), 500);
   });
 }
+
+/* -------------------------------------------------------------------
+   🔰  FACULTY-SIDE DUMMY DATA
+--------------------------------------------------------------------*/
+
+// 1️⃣  Dashboard analytics + AI suggestions
+/* utils/apiMock.js */
+
+// ─── Dashboard stats ───
+const dummyFacultyDashboard = {
+    totalEvents: 8,
+    upcomingEvents: 3,
+    totalAttendees: 944,
+    averageAttendance: 72,      // %
+    attendanceTrend: [
+  { month: 'Jan', attendance: 90 },
+  { month: 'Feb', attendance: 110 },
+  { month: 'Mar', attendance: 118 },
+  ],
+    eventCategories: [
+  { name: 'Technology', value: 5, color: '#3B82F6' },
+  { name: 'Career',      value: 2, color: '#10B981' },
+  { name: 'Culture',     value: 1, color: '#F59E0B' },
+  ],
+    recentEvents: [
+  { id: 101, title: 'Cloud Computing Bootcamp', date: '2024-02-10', attendees: 140, status: 'completed' },
+  { id: 102, title: 'Robotics Expo',            date: '2024-01-27', attendees: 95,  status: 'completed' },
+  ],
+};
+
+// 2️⃣  Events created / managed by this faculty
+const dummyFacultyEvents = [
+  {
+    id: 101,
+    title: 'Cloud Computing Bootcamp',
+    date: '2024-05-05',
+    time: '10:00 AM',
+    clubId: 1,
+    clubName: 'Tech Society',
+    location: 'Engg. Auditorium',
+    category: 'Technology',
+    approved: true,
+    attendees: 140,
+    registeredStudents: 160,      // for quick analytics
+    attendanceMarked: true,
+  },
+  {
+    id: 104,
+    title: 'AI Ethics Panel',
+    date: '2024-05-20',
+    time: '2:00 PM',
+    clubId: 1,
+    clubName: 'Tech Society',
+    location: 'Seminar Hall B',
+    category: 'Technology',
+    approved: false,              // waiting for Admin approval
+    attendees: 0,
+    registeredStudents: 45,
+    attendanceMarked: false,
+  },
+  {
+    id: 105,
+    title: 'Tech Society AGM',
+    date: '2024-06-10',
+    time: '5:00 PM',
+    clubId: 1,
+    clubName: 'Tech Society',
+    location: 'Lecture Theatre 3',
+    category: 'Society',
+    approved: true,
+    attendees: 0,
+    registeredStudents: 86,
+    attendanceMarked: false,
+  },
+];
+
+dummyFacultyEvents.forEach((e) => {
+  if (!e.status) e.status = e.date > '2025-06-30' ? 'upcoming' : 'completed';
+  if (e.registeredCount === undefined) e.registeredCount = Math.min(e.attendees ?? 0, e.maxCapacity ?? 160);
+});
+
+// 3️⃣  Per-event registration list (id ➜ array)
+const dummyRegisteredStudentsByEvent = {
+  101: [
+    { id: 'S001', name: 'Alice Johnson', department: 'CSE', status: 'present' },
+    { id: 'S002', name: 'Rahul Mehta', department: 'ECE', status: 'present' },
+    { id: 'S003', name: 'Diana Lee', department: 'IT', status: 'absent' },
+  ],
+  104: [
+    { id: 'S004', name: 'Mark O’Brien', department: 'CSE', status: 'pending' },
+    { id: 'S005', name: 'Sara Wong', department: 'EEE', status: 'pending' },
+  ],
+  105: [],
+};
+
+// 4️⃣  Clubs coordinated by this faculty user
+const dummyFacultyClubs = [
+  {
+    id: 1,
+    name: 'Tech Society',
+    memberCount: 245,
+    category: 'environment',
+    description: 'Exploring the latest in tech & innovation',
+  },
+  {
+    id: 5,
+    name: 'Robotics Club',
+    memberCount: 67,
+    category: 'environment',
+    description: 'Building and programming autonomous robots',
+  },
+];
+
+// helper to generate next id
+let nextFacultyEventId = 200;
+
+/* -------------------------------------------------------------------
+   🔰  FACULTY-SIDE MOCK API FUNCTIONS
+--------------------------------------------------------------------*/
+
+/**
+ * GET /api/faculty/dashboard
+ */
+export async function getFacultyDashboard() {
+  console.log('GET /api/faculty/dashboard');
+  return new Promise((res) => setTimeout(() => res(dummyFacultyDashboard), 400));
+}
+
+/**
+ * GET /api/faculty/events     (list all events created by this faculty)
+ */
+export async function getFacultyEvents() {
+  console.log('GET /api/faculty/events');
+  return new Promise((res) => setTimeout(() => res(dummyFacultyEvents), 300));
+}
+
+/**
+ * GET /api/faculty/events/:id
+ * Adds full registration list.
+ */
+export async function getFacultyEventById(id) {
+  console.log('GET /api/faculty/events/' + id);
+  const event = dummyFacultyEvents.find((e) => e.id === parseInt(id));
+  if (event) event.registeredStudentsList = dummyRegisteredStudentsByEvent[id] ?? [];
+  return new Promise((res) => setTimeout(() => res(event), 300));
+}
+
+/**
+ * POST /api/faculty/events  (create)
+ */
+export async function createFacultyEvent(eventData) {
+  console.log('POST /api/faculty/events', eventData);
+  const newEvent = {
+    id: nextFacultyEventId++,
+    approved: false,
+    attendanceMarked: false,
+    registeredStudents: 0,
+    attendees: 0,
+    ...eventData,
+  };
+  dummyFacultyEvents.push(newEvent);
+  return new Promise((res) => setTimeout(() => res({ success: true, event: newEvent }), 400));
+}
+
+/**
+ * PUT /api/faculty/events/:id  (update)
+ */
+export async function updateFacultyEvent(id, updates) {
+  console.log('PUT /api/faculty/events/' + id, updates);
+  const idx = dummyFacultyEvents.findIndex((e) => e.id === parseInt(id));
+  if (idx !== -1) dummyFacultyEvents[idx] = { ...dummyFacultyEvents[idx], ...updates };
+  return new Promise((res) =>
+      setTimeout(() => res({ success: idx !== -1, event: dummyFacultyEvents[idx] }), 400),
+  );
+}
+
+/**
+ * DELETE /api/faculty/events/:id
+ */
+export async function deleteFacultyEvent(id) {
+  console.log('DELETE /api/faculty/events/' + id);
+  const before = dummyFacultyEvents.length;
+  const newArr = dummyFacultyEvents.filter((e) => e.id !== parseInt(id));
+  if (newArr.length !== before) {
+    dummyFacultyEvents.splice(0, dummyFacultyEvents.length, ...newArr); // mutate in place
+  }
+  return new Promise((res) => setTimeout(() => res({ success: newArr.length !== before }), 300));
+}
+
+/**
+ * GET /api/faculty/events/:id/attendance
+ */
+export async function getEventAttendance(id) {
+  console.log('GET /api/faculty/events/' + id + '/attendance');
+  const students = dummyRegisteredStudentsByEvent[id] ?? [];
+  const event  = dummyFacultyEvents.find(e => e.id === parseInt(id));
+  return new Promise((res)=>setTimeout(()=>res({
+    eventId: id,
+    eventTitle: event?.title ?? '',
+    students
+  }),300));
+}
+
+/**
+ * POST /api/faculty/events/:id/attendance  (mark a single student)
+ */
+export async function markAttendance(id, studentId, status = 'present') {
+  console.log('POST /api/faculty/events/' + id + '/attendance', { studentId, status });
+  const list = dummyRegisteredStudentsByEvent[id] ?? [];
+  const stu = list.find((s) => s.id === studentId);
+  if (stu) stu.status = status;
+  return new Promise((res) => setTimeout(() => res({ success: !!stu }), 200));
+}
+
+/**
+ * GET /api/faculty/clubs
+ */
+export async function getFacultyClubs() {
+  console.log('GET /api/faculty/clubs');
+  return new Promise((res) => setTimeout(() => res(dummyFacultyClubs), 300));
+}
+
+/**
+ * GET /api/faculty/clubs/:id/events
+ * (Calendar – returns events for that club only)
+ */
+export async function getClubEventsForFaculty(clubId) {
+  console.log('GET /api/faculty/clubs/' + clubId + '/events');
+  const events = dummyFacultyEvents.filter((e) => e.clubId === parseInt(clubId));
+  return new Promise((res) => setTimeout(() => res(events), 300));
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 const LoginSignupCTA = () => {
@@ -30,14 +31,20 @@ const LoginSignupCTA = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
-          <button className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-50 hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+          <Link
+              to="/signup"
+              className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-50 hover:shadow-xl hover:scale-105 transform transition-all duration-300"
+          >
             <span>Sign Up Free</span>
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
-          </button>
+          </Link>
 
-          <button className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300">
+          <Link
+              to="/login"
+              className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300"
+          >
             <span>Login</span>
-          </button>
+          </Link>
         </div>
 
         {/* Trust Indicators */}

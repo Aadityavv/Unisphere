@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../../components/shared/Navbar';
 import Footer from '../../components/shared/Footer';
 import ClubHeader from '../../components/student/ClubHeader';
@@ -6,75 +7,65 @@ import ClubEventList from '../../components/student/ClubEventList';
 import ClubMemberList from '../../components/student/ClubMemberList';
 import { getClubById, getEvents } from '../../utils/apiMock';
 
-const ClubDetails = ({ clubId = 1 }) => {
-  const [club, setClub] = useState(null);
-  const [clubEvents, setClubEvents] = useState([]);
+const ClubDetails: React.FC = () => {
+  const { clubId } = useParams();
+  const id = Number(clubId);
+
+  const [club, setClub] = useState<any | null>(null);
+  const [clubEvents, setClubEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchClubDetails = async () => {
       try {
-        const [clubData, allEvents] = await Promise.all([
-          getClubById(clubId),
-          getEvents()
-        ]);
-        
+        const [clubData, allEvents] = await Promise.all([getClubById(id), getEvents()]);
         setClub(clubData);
-        // Filter events by club
-        const events = allEvents.filter(event => event.club === clubData.name);
-        setClubEvents(events);
-      } catch (error) {
-        console.error('Error fetching club details:', error);
+        setClubEvents(allEvents.filter((e) => e.club === clubData.name));
+      } catch (e) {
+        console.error('Error fetching club:', e);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchClubDetails();
-  }, [clubId]);
+    if (!isNaN(id)) fetchClubDetails();
+  }, [id]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <div className="flex items-center justify-center h-96">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
+        <div className="min-h-screen bg-slate-50">
+          <Navbar />
+          <div className="flex items-center justify-center h-96">
+            <div className="animate-spin h-12 w-12 border-b-2 border-emerald-500 rounded-full" />
+          </div>
         </div>
-      </div>
     );
   }
 
   if (!club) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
+        <div className="min-h-screen bg-slate-50">
+          <Navbar />
+          <div className="max-w-7xl mx-auto px-4 py-16 text-center">
             <h1 className="text-2xl font-bold text-slate-900 mb-4">Club Not Found</h1>
-            <p className="text-slate-600">The club you're looking for doesn't exist.</p>
+            <p className="text-slate-600">This club does not exist.</p>
           </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navbar />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Club Header */}
-        <ClubHeader club={club} />
+      <div className="min-h-screen bg-slate-50">
+        <Navbar />
 
-        {/* Club Events */}
-        <ClubEventList events={clubEvents} />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <ClubHeader club={club} />
+          <ClubEventList events={clubEvents} />
+          <ClubMemberList />
+        </main>
 
-        {/* Club Members */}
-        <ClubMemberList />
-      </main>
-
-      <Footer />
-    </div>
+        <Footer />
+      </div>
   );
 };
 
