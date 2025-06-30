@@ -1,22 +1,24 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import HeroBanner from './components/HeroBanner';
-import HighlightedEvents from './components/HighlightedEvents';
-import AboutUniSphere from './components/AboutUniSphere';
-import LoginSignupCTA from './components/LoginSignupCTA';
-import Footer from './components/Footer';
+// src/App.tsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './pages/public/Landing';
+import StudentDashboard from './pages/student/Dashboard';   // stub exists
+import Events from './pages/student/Events';                // list view
+// (add more imports as you scaffold pages)
 
-function App() {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <HeroBanner />
-      <HighlightedEvents />
-      <AboutUniSphere />
-      <LoginSignupCTA />
-      <Footer />
-    </div>
-  );
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/* --- Public routes --- */}
+                <Route path="/" element={<Landing />} />
+
+                {/* --- Student routes (no auth guard yet) --- */}
+                <Route path="/dashboard" element={<StudentDashboard />} />
+                <Route path="/events" element={<Events />} />
+                {/* <Route path="/events/:id" element={<EventDetails />} />   etc. */}
+
+                {/* TODO: /login, /signup, faculty, admin routes */}
+            </Routes>
+        </BrowserRouter>
+    );
 }
-
-export default App;
