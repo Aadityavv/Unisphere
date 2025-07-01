@@ -23,4 +23,10 @@ export const fetchEventById = async (id: string) => {
     return res.data;
 };
 
+export const getAttendanceByUserId = async (userId: string) => {
+    const res = await API.get(`/attendance/user/${userId}`);
+    return res.data;
+};
+
+
 export default API;

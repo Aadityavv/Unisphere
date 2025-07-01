@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Event {
     _id: string;
@@ -14,9 +15,12 @@ interface UpcomingEventsProps {
 }
 
 const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ events }) => {
+    const navigate = useNavigate();
+
     const handleEventClick = (eventId: string) => {
-        console.log('Navigate to event:', eventId);
+        navigate(`/events/${eventId}`);
     };
+
 
     return (
         <section className="py-8">

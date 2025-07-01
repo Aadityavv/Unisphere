@@ -23,6 +23,12 @@ import FacultyClubs from './pages/faculty/Clubs';
 import ClubEventCalendar from './pages/faculty/ClubEventCalendar';
 import { setAuthToken } from './utils/api';
 
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import EventApprovalPage from "./pages/admin/EventApprovalPage.tsx";
+import UserManagementPage from './pages/admin/UserManagementPage';
+import ClubModerationPage from './pages/admin/ClubModerationPage';
+import SystemAnalyticsPage from './pages/admin/SystemAnalyticsPage';
+
 const token = localStorage.getItem('token');
 setAuthToken(token);
 
@@ -55,7 +61,15 @@ export default function App() {
                 <Route path="/faculty/attendance/:id" element={<AttendanceMarking />} />
                 <Route path="/faculty/clubs" element={<FacultyClubs />} />
                 <Route path="/faculty/clubs/:id/events" element={<ClubEventCalendar />} />
-                {/*<Route path="/admin/dashboard" element={<AdminDashboard />} />*/}
+
+
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/event-approvals" element={<EventApprovalPage />} />
+                <Route path="/admin/users" element={<UserManagementPage />} />
+                <Route path="/admin/clubs" element={<ClubModerationPage />} />
+                <Route path="/admin/analytics" element={<SystemAnalyticsPage />} />
+
+
 
                 <Route path="*" element={<h1 className="p-10 text-xl">404 – Page Not Found</h1>} />
             </Routes>

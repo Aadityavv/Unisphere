@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../../components/shared/Navbar';
 import Footer from '../../components/shared/Footer';
 import AttendanceTable from '../../components/student/AttendanceTable';
 import ParticipationGraph from '../../components/student/ParticipationGraph';
-import { getAttendance } from '../../utils/apiMock';
+import { getAttendanceByUserId } from '../../utils/api';
 
 const Attendance = () => {
   const [attendance, setAttendance] = useState([]);
@@ -12,8 +12,16 @@ const Attendance = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const data = await getAttendance('user123');
-        setAttendance(data);
+        const user = JSON.parse(localStorage.getItem('user')!); // user._id is needed
+        const data = await getAttendanceByUserId(user._id);
+        const formatted = data.map((record: any) => ({
+          eventTitle: record.eventId?.title || 'Untitled',
+          date: new Date(record.eventId?.dateTime).toLocaleDateString(),
+          status: record.status === 'present' ? 'Attended' : 'Missed',
+          rating: record.rating || null,
+        }));
+        setAttendance(formatted);
+
       } catch (error) {
         console.error('Error fetching attendance:', error);
       } finally {
@@ -23,6 +31,7 @@ const Attendance = () => {
 
     fetchAttendance();
   }, []);
+
 
   if (loading) {
     return (
@@ -52,7 +61,7 @@ const Attendance = () => {
 
         {/* Participation Graph */}
         <div className="mb-8">
-          <ParticipationGraph />
+          <ParticipationGraph attendance={attendance} />
         </div>
 
         {/* Attendance Table */}

@@ -1,29 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import EventCard from './EventCard';
 
-interface Event {
-    _id: string;
-    title: string;
-    dateTime: string;
-    location: string;
-    clubId?: { name: string }; // if populated
-    attendees?: number;
-}
-
-interface SuggestedEventsProps {
-    events: Event[];
-}
-
 const SuggestedEvents: React.FC<SuggestedEventsProps> = ({ events }) => {
+    const navigate = useNavigate();
+
     const handleEventClick = (eventId: string) => {
-        console.log('Navigate to event:', eventId);
+        navigate(`/events/${eventId}`);
     };
 
     return (
         <section className="py-8">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-slate-900">Suggested Events</h2>
-                <button className="text-emerald-600 hover:text-emerald-700 font-medium text-sm">
+                <button
+                    className="text-emerald-600 hover:text-emerald-700 font-medium text-sm"
+                    onClick={() => navigate('/events')}
+                >
                     View All →
                 </button>
             </div>

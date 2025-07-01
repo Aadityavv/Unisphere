@@ -13,7 +13,7 @@ const signupSchema = z.object({
     email: z.string().email('Please enter a valid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string().min(6, 'Please confirm your password'),
-    role: z.enum(['student', 'faculty', 'admin'], {
+    role: z.enum(['student', 'faculty'], {
         errorMap: () => ({ message: 'Please select a role' }),
     }),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -84,7 +84,6 @@ const Signup: React.FC = () => {
     const roles = [
         { value: 'student', label: 'Student', icon: GraduationCap },
         { value: 'faculty', label: 'Faculty', icon: GraduationCap },
-        { value: 'admin', label: 'Admin', icon: GraduationCap },
     ];
 
     return (
@@ -105,7 +104,7 @@ const Signup: React.FC = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-3">
                                 I am a:
                             </label>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 {roles.map((role) => {
                                     const Icon = role.icon;
                                     return (

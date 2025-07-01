@@ -1,3 +1,4 @@
+// src/pages/auth/Login.tsx
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,9 +11,6 @@ import API, { setAuthToken } from '../../utils/api';
 const loginSchema = z.object({
     email: z.string().email('Please enter a valid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
-    role: z.enum(['student', 'faculty', 'admin'], {
-        errorMap: () => ({ message: 'Please select a role' }),
-    }),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -26,20 +24,12 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
-        setValue,
-        watch,
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
-        defaultValues: {
-            role: 'student',
-        },
     });
-
-    const selectedRole = watch('role');
 
     const onSubmit = async (data: LoginFormData) => {
         setIsLoading(true);
-
         try {
             const res = await API.post('/auth/login', {
                 email: data.email,
@@ -48,14 +38,13 @@ const Login: React.FC = () => {
 
             const { token, user } = res.data;
 
-            // Save and set token
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
             setAuthToken(token);
 
             toast.success('Login successful!');
 
-            // Redirect based on role
+            // Auto-redirect based on role
             if (user.role === 'student') {
                 navigate('/dashboard');
             } else if (user.role === 'faculty') {
@@ -66,16 +55,8 @@ const Login: React.FC = () => {
         } catch (err: any) {
             toast.error(err?.response?.data?.message || 'Login failed');
         }
-
         setIsLoading(false);
     };
-
-
-    const roles = [
-        { value: 'student', label: 'Student', icon: GraduationCap },
-        { value: 'faculty', label: 'Faculty', icon: GraduationCap },
-        { value: 'admin', label: 'Admin', icon: GraduationCap },
-    ];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
@@ -90,36 +71,6 @@ const Login: React.FC = () => {
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                        {/* Role Selection */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-3">
-                                I am a:
-                            </label>
-                            <div className="grid grid-cols-3 gap-2">
-                                {roles.map((role) => {
-                                    const Icon = role.icon;
-                                    return (
-                                        <button
-                                            key={role.value}
-                                            type="button"
-                                            onClick={() => setValue('role', role.value as any)}
-                                            className={`p-3 rounded-lg border-2 transition-all duration-200 ${
-                                                selectedRole === role.value
-                                                    ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                                    : 'border-gray-200 bg-white text-gray-600 hover:border-blue-300 hover:bg-blue-50'
-                                            }`}
-                                        >
-                                            <Icon className="w-5 h-5 mx-auto mb-1" />
-                                            <span className="text-xs font-medium">{role.label}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                            {errors.role && (
-                                <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
-                            )}
-                        </div>
-
                         {/* Email */}
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
