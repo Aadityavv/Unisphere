@@ -1,3 +1,4 @@
+// src/pages/faculty/Attendance.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
@@ -11,8 +12,8 @@ interface Student {
   _id: string;
   name: string;
   rollNumber: string;
-  status: 'present' | 'absent';
-  checkedInAt?: string;
+  status: 'present' | 'absent' | 'late';
+  checkedInAt?: string | null;
 }
 
 interface AttendanceData {
@@ -43,23 +44,32 @@ const AttendanceMarking: React.FC = () => {
     }
   };
 
+  /** QR-code handler */
   const handleQRScan = async (studentIdRaw: string) => {
-    const studentId = studentIdRaw.replace(/\D/g, '');
     if (!attendanceData) return;
 
-    const student = attendanceData.students.find((s) => s.rollNumber === studentId);
-    if (!student) return toast.error('Student not registered for event');
+    const studentId = studentIdRaw.trim(); // keep full payload
+
+    const student =
+        attendanceData.students.find((s) => s._id === studentId) ||
+        attendanceData.students.find((s) => s.rollNumber === studentId);
+
+    if (!student)
+      return toast.error('Student not registered for event');
 
     try {
-      await axios.put(`/attendance/event/${attendanceData.eventId}/student/${student._id}`, { status: 'present' });
+      await axios.put(
+          `/attendance/event/${attendanceData.eventId}/student/${student._id}`,
+          { status: 'present' }
+      );
 
       const updatedStudents = attendanceData.students.map((s) =>
           s._id === student._id
               ? { ...s, status: 'present', checkedInAt: new Date().toISOString() }
               : s
       );
-      setAttendanceData({ ...attendanceData, students: updatedStudents });
 
+      setAttendanceData({ ...attendanceData, students: updatedStudents });
       toast.success(`${student.name} marked present`);
     } catch (err) {
       console.error(err);
@@ -67,17 +77,29 @@ const AttendanceMarking: React.FC = () => {
     }
   };
 
-  const handleToggleAttendance = async (studentId: string, status: 'present' | 'absent') => {
+  /** Manual toggle handler */
+  const handleToggleAttendance = async (
+      studentId: string,
+      status: 'present' | 'absent' | 'late'
+  ) => {
     if (!attendanceData) return;
 
     try {
-      await axios.put(`/attendance/event/${attendanceData.eventId}/student/${studentId}`, { status });
+      await axios.put(
+          `/attendance/event/${attendanceData.eventId}/student/${studentId}`,
+          { status }
+      );
 
       const updatedStudents = attendanceData.students.map((s) =>
           s._id === studentId
-              ? { ...s, status, checkedInAt: status === 'present' ? new Date().toISOString() : undefined }
+              ? {
+                ...s,
+                status,
+                checkedInAt: status === 'present' ? new Date().toISOString() : undefined,
+              }
               : s
       );
+
       setAttendanceData({ ...attendanceData, students: updatedStudents });
 
       const student = updatedStudents.find((s) => s._id === studentId);
@@ -88,6 +110,7 @@ const AttendanceMarking: React.FC = () => {
     }
   };
 
+  /** CSV export */
   const handleExportAttendance = () => {
     if (!attendanceData) return;
 
@@ -115,6 +138,8 @@ const AttendanceMarking: React.FC = () => {
     toast.success('Attendance exported');
   };
 
+  /* ──────────────── UI STATES ──────────────── */
+
   if (isLoading) {
     return (
         <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -131,7 +156,9 @@ const AttendanceMarking: React.FC = () => {
         <div className="min-h-screen flex justify-center items-center bg-gray-100">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Event Not Found</h2>
-            <p className="text-gray-600 mb-4">The event you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-4">
+              The event you're looking for doesn't exist.
+            </p>
             <Link
                 to="/faculty/events"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
@@ -143,13 +170,15 @@ const AttendanceMarking: React.FC = () => {
     );
   }
 
+  /* ──────────────── MAIN RENDER ──────────────── */
+
   return (
       <div className="min-h-screen bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="flex items-center mb-8">
             <Link
-                to={`/faculty/events/${id}`}
+                to={`/faculty/events/${attendanceData.eventId}`}
                 className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors mr-4"
             >
               <ArrowLeft className="w-5 h-5" />

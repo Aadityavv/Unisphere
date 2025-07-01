@@ -19,7 +19,7 @@ interface FacultyEvent {
 
 interface FacultyEventCardProps {
   event: FacultyEvent;
-  onDelete: (_id: string) => void; // id type changed to string
+  onDelete: (event: FacultyEvent) => void;
 }
 
 const FacultyEventCard: React.FC<FacultyEventCardProps> = ({ event, onDelete }) => {
@@ -85,7 +85,7 @@ const FacultyEventCard: React.FC<FacultyEventCardProps> = ({ event, onDelete }) 
             )}
 
             <button
-                onClick={() => onDelete(event._id)}
+                onClick={() => onDelete(event)}
                 className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                 title="Delete Event"
             >
