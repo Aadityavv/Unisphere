@@ -3,6 +3,7 @@ const Event = require('../models/Event');
 const Registration = require('../models/Registration');
 const auth = require('../middleware/auth');
 const { requireRole } = require('../middleware/role');
+const { getFacultyDashboard } = require('../controllers/facultyController');
 
 const router = express.Router();
 
@@ -78,5 +79,7 @@ router.put('/:id', auth, requireRole('faculty'), async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+router.get('/faculty/dashboard', auth, requireRole('faculty'), getFacultyDashboard);
 
 module.exports = router; 

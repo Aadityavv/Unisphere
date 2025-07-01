@@ -5,33 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f0a5e0a-5ea0-429f-9f64-754f4c6c7165" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AlertsBanner.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AllClubsTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/ApprovalTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/ApproveRejectButtons.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/CategoryPieChart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/EngagementHeatmap.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/EventPreviewModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/ModerationActions.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/RoleChangeDropdown.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/TimeConflictWarnings.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/TopDepartmentsList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/UserActionMenu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/UserTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminDashboard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/ClubModerationPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/EventApprovalPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/SystemAnalyticsPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/admin/UserManagementPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/ParticipationGraph.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/ParticipationGraph.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/SuggestedEvents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/SuggestedEvents.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/UpcomingEvents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/UpcomingEvents.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/Attendance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/Attendance.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/faculty/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faculty/Dashboard.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +96,7 @@
       <updated>1751226697338</updated>
       <workItem from="1751226698912" duration="8024000" />
       <workItem from="1751290452033" duration="10758000" />
-      <workItem from="1751345108333" duration="18198000" />
+      <workItem from="1751345108333" duration="20702000" />
     </task>
     <servers />
   </component>
