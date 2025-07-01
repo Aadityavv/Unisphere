@@ -1,11 +1,15 @@
 import React from 'react';
 import EventCard from './EventCard';
 import { Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ClubEventList = ({ events }) => {
-  const handleEventClick = (eventId) => {
-    console.log('Navigate to event:', eventId);
-  };
+    const navigate = useNavigate();
+
+    const handleEventClick = (eventId) => {
+        navigate(`/events/${eventId}`);
+    };
+
 
   return (
       <section className="py-8">

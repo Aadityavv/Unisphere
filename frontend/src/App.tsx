@@ -21,6 +21,10 @@ import CreateEditEvent from './pages/faculty/CreateEditEvent';
 import AttendanceMarking from './pages/faculty/Attendance';
 import FacultyClubs from './pages/faculty/Clubs';
 import ClubEventCalendar from './pages/faculty/ClubEventCalendar';
+import { setAuthToken } from './utils/api';
+
+const token = localStorage.getItem('token');
+setAuthToken(token);
 
 export default function App() {
     return (

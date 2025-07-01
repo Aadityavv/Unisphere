@@ -40,7 +40,7 @@ const EventDetails: React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await API.post(`/registration/events/${id}/register`);
+      const res = await API.post(`/registration/${id}/register`);
       if (res.status === 201) {
         setEvent((prev: any) => ({ ...prev, registered: true }));
       }
@@ -92,7 +92,13 @@ const EventDetails: React.FC = () => {
                       : 'Register now to secure your spot and receive updates.'}
                 </p>
               </div>
-              <RegisterButton event={event} onRegister={handleRegister} />
+              {event.registered ? (
+                  <span className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl text-sm font-semibold">
+    Already Registered
+  </span>
+              ) : (
+                  <RegisterButton event={event} onRegister={handleRegister} />
+              )}
             </div>
           </div>
 

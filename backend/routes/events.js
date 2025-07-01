@@ -36,15 +36,27 @@ router.get('/', async (req, res) => {
 });
 
 // Get event by id
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id).populate('clubId organizerId');
+    const event = await Event.findById(req.params.id).populate('clubId organizerId').lean();
     if (!event) return res.status(404).json({ message: 'Event not found' });
+
+    // Check if logged-in user is a student who registered for this event
+    const registration = await Registration.findOne({
+      userId: req.user._id,
+      eventId: req.params.id
+    });
+
+    // Add dynamic field
+    event.registered = !!registration;
+
     res.json(event);
   } catch (err) {
+    console.error('Error in GET /events/:id', err);
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // Get events for a student (registered)
 router.get('/student/:userId', auth, async (req, res) => {
