@@ -51,7 +51,7 @@ const DeletePrompt: React.FC<DeletePromptProps> = ({
             disabled={isLoading}
             className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
           >
-            {isLoading ? 'Deleting...' : 'Delete'}
+            {isLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Delete'}
           </button>
         </div>
       </div>

@@ -5,7 +5,8 @@ import EventAnalytics from '../../components/faculty/EventAnalytics';
 import SmartSchedulingTips from '../../components/faculty/SmartSchedulingTips';
 import PastEventList from '../../components/faculty/PastEventList';
 import toast from 'react-hot-toast';
-import axios from '../../utils/api'; // use axios instance with auth token
+import axios from '../../utils/api';
+import Navbar from '../../components/shared/Navbar';
 
 const FacultyDashboard: React.FC = () => {
   const [dashboardData, setDashboardData] = useState<any>(null);
@@ -14,7 +15,7 @@ const FacultyDashboard: React.FC = () => {
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const res = await axios.get('/faculty/dashboard');
+        const res = await axios.get('/events/faculty/dashboard');
         setDashboardData(res.data);
       } catch (error) {
         console.error('Failed to load dashboard:', error);
@@ -79,6 +80,9 @@ const FacultyDashboard: React.FC = () => {
 
   return (
       <div className="min-h-screen bg-gray-100">
+        {/* ✅ Faculty Navbar */}
+        <Navbar />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">

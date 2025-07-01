@@ -8,8 +8,7 @@ interface FacultyEvent {
   id: number;
   title: string;
   description: string;
-  date: string;
-  time: string;
+  dateTime: string;
   location: string;
   category: string;
   club: string;
@@ -24,8 +23,8 @@ interface FacultyEventCardProps {
 }
 
 const FacultyEventCard: React.FC<FacultyEventCardProps> = ({ event, onDelete }) => {
-  const isUpcoming = dayjs(event.date).isAfter(dayjs());
-  const isPast = dayjs(event.date).isBefore(dayjs());
+  const isUpcoming = dayjs(event.dateTime).isAfter(dayjs());
+  const isPast = dayjs(event.dateTime).isBefore(dayjs());
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
