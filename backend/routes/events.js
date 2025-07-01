@@ -42,6 +42,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/faculty/dashboard', auth, requireRole('faculty'), getFacultyDashboard);
 
 // Get event by id
 router.get('/:id', auth, async (req, res) => {
@@ -87,7 +88,6 @@ router.put('/:id', auth, requireRole('faculty'), async (req, res) => {
   }
 });
 
-router.get('/faculty/dashboard', auth, requireRole('faculty'), getFacultyDashboard);
 
 // Delete event
 router.delete('/:id', auth, requireRole('faculty'), async (req, res) => {

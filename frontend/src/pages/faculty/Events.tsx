@@ -78,7 +78,7 @@ const FacultyEvents: React.FC = () => {
   const handleDeleteEvent = async (eventId: string) => {
     try {
       await axios.delete(`/events/${eventId}`);
-      setEvents(events.filter(event => event.id !== eventId));
+      setEvents(events.filter(event => event._id !== eventId));
       toast.success('Event deleted successfully');
       setDeletePrompt({ isOpen: false, event: null });
     } catch (error) {
@@ -180,7 +180,7 @@ const FacultyEvents: React.FC = () => {
           ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredEvents.map((event) => (
-                    <FacultyEventCard event={{ ...event, _id: event.id }} onDelete={openDeletePrompt} />
+                    <FacultyEventCard event={{ ...event, _id: event._id }} onDelete={openDeletePrompt} />
                 ))}
               </div>
           )}
@@ -189,7 +189,7 @@ const FacultyEvents: React.FC = () => {
           <DeletePrompt
               isOpen={deletePrompt.isOpen}
               onClose={() => setDeletePrompt({ isOpen: false, event: null })}
-              onConfirm={() => handleDeleteEvent(deletePrompt.event?.id)}
+              onConfirm={() => handleDeleteEvent(deletePrompt.event?._id)}
               eventTitle={deletePrompt.event?.title || ''}
           />
         </div>

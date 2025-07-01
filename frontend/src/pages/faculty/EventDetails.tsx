@@ -6,7 +6,7 @@ import EventMetaEditable from '../../components/faculty/EventMetaEditable';
 import RegisteredList from '../../components/faculty/RegisteredList';
 import SendReminderButton from '../../components/faculty/SendReminderButton';
 import CheckInQRScanner from '../../components/faculty/CheckInQRScanner';
-import { getFacultyEventById, updateFacultyEvent } from '../../utils/apiMock';
+import axios from '../../utils/api';
 
 const FacultyEventDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,13 +16,13 @@ const FacultyEventDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      loadEvent(parseInt(id));
+      loadEvent(id);
     }
   }, [id]);
 
   const loadEvent = async (eventId: number) => {
     try {
-      const data = await getFacultyEventById(eventId);
+      const { data } = await axios.get(`/events/${eventId}`);
       if (data) {
         setEvent(data);
       } else {
@@ -38,10 +38,10 @@ const FacultyEventDetails: React.FC = () => {
 
   const handleUpdateEvent = async (updatedData: any) => {
     if (!event) return;
-    
+
     setIsUpdating(true);
     try {
-      const updated = await updateFacultyEvent(event.id, updatedData);
+      const { data: updated } = await axios.put(`/events/${event._id}`, updatedData);
       setEvent({ ...event, ...updated });
       toast.success('Event updated successfully');
     } catch (error) {
@@ -98,7 +98,7 @@ const FacultyEventDetails: React.FC = () => {
             </div>
           </div>
           <Link
-            to={`/faculty/edit/${event.id}`}
+            to={`/faculty/edit/${event._id}`}
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center"
           >
             <Edit className="w-5 h-5 mr-2" />
@@ -117,12 +117,12 @@ const FacultyEventDetails: React.FC = () => {
           {/* Action Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <SendReminderButton
-              eventId={event.id}
+              eventId={event._id}
               eventTitle={event.title}
               registeredCount={event.registeredCount}
             />
             <CheckInQRScanner
-              eventId={event.id}
+              eventId={event._id}
               eventTitle={event.title}
             />
           </div>
