@@ -36,7 +36,7 @@ const RegisterButton = ({ event, onRegister }) => {
         
         {showQR && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <QRDisplay eventId={event.id} />
+            <QRDisplay eventId={event._id} />
           </div>
         )}
       </div>

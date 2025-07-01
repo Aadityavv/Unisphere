@@ -24,7 +24,7 @@ const EventMeta = ({ event }) => {
           <div>
             <p className="font-medium text-slate-900">Time & Duration</p>
             <p className="text-slate-600">{event.time}</p>
-            <p className="text-sm text-slate-500">{event.duration}</p>
+            <p className="text-sm text-slate-500">{event.duration || 60} mins</p>
           </div>
         </div>
 
@@ -57,8 +57,8 @@ const EventMeta = ({ event }) => {
             </div>
             <div>
               <p className="font-medium text-slate-900">Organized by</p>
-              <p className="text-slate-600">{event.club}</p>
-              <p className="text-sm text-slate-500">Faculty Organizer: {event.organizer}</p>
+              <p className="text-slate-600">{event.clubId?.name || 'General Club'}</p>
+              <p className="text-sm text-slate-500">Faculty Organizer: {event.organizerId?.fullName || 'Staff'}</p>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, Loader2, GraduationCap } from 'lucide-react';
 import toast from 'react-hot-toast';
+import API, { setAuthToken } from '../../utils/api';
 
 const loginSchema = z.object({
     email: z.string().email('Please enter a valid email address'),
@@ -39,22 +40,36 @@ const Login: React.FC = () => {
     const onSubmit = async (data: LoginFormData) => {
         setIsLoading(true);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
+        try {
+            const res = await API.post('/auth/login', {
+                email: data.email,
+                password: data.password,
+            });
 
-        toast.success('Login successful!');
+            const { token, user } = res.data;
 
-        // Navigate based on role
-        if (data.role === 'student') {
-            navigate('/dashboard');
-        } else if (data.role === 'faculty') {
-            navigate('/faculty/dashboard');
-        } else if (data.role === 'admin') {
-            navigate('/admin/dashboard');
+            // Save and set token
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            setAuthToken(token);
+
+            toast.success('Login successful!');
+
+            // Redirect based on role
+            if (user.role === 'student') {
+                navigate('/dashboard');
+            } else if (user.role === 'faculty') {
+                navigate('/faculty/dashboard');
+            } else {
+                navigate('/admin/dashboard');
+            }
+        } catch (err: any) {
+            toast.error(err?.response?.data?.message || 'Login failed');
         }
 
         setIsLoading(false);
     };
+
 
     const roles = [
         { value: 'student', label: 'Student', icon: GraduationCap },

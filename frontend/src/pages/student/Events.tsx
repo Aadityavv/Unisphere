@@ -5,7 +5,7 @@ import Footer from '../../components/shared/Footer';
 import EventFilterBar from '../../components/student/EventFilterBar';
 import EventCard from '../../components/student/EventCard';
 import { Calendar } from 'lucide-react';
-import { getEvents } from '../../utils/apiMock';
+import { fetchAllEvents } from '../../utils/api';
 
 const Events: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Events: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const data = await getEvents();
+        const data = await fetchAllEvents();
         setEvents(data);
         setFilteredEvents(data);
       } catch (e) {
@@ -29,7 +29,6 @@ const Events: React.FC = () => {
     })();
   }, []);
 
-  /* -------- Filters -------- */
   const handleFiltersChange = (filters: any) => {
     let list = [...events];
 
@@ -37,28 +36,29 @@ const Events: React.FC = () => {
       list = list.filter(
           (e) =>
               e.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-              e.club.toLowerCase().includes(filters.search.toLowerCase()),
+              (e.clubId?.name?.toLowerCase().includes(filters.search.toLowerCase()) ?? false)
       );
     }
-    if (filters.club) list = list.filter((e) => e.club === filters.club);
+    if (filters.club) list = list.filter((e) => e.clubId?.name === filters.club);
     if (filters.category) list = list.filter((e) => e.category === filters.category);
-    if (filters.date) list = list.filter((e) => e.date === filters.date);
-    if (filters.recommendedOnly) list = list.filter((e) => e.id % 2 === 0);
-
+    if (filters.date) {
+      list = list.filter((e) =>
+          new Date(e.dateTime).toLocaleDateString() === new Date(filters.date).toLocaleDateString()
+      );
+    }
     setFilteredEvents(list);
   };
 
-  const handleEventClick = (id: number) => navigate(`/events/${id}`);
+  const handleEventClick = (id: string) => navigate(`/events/${id}`);
 
   const handleLoadMore = () => {
     setLoadingMore(true);
     setTimeout(() => {
       setLoadingMore(false);
-      setHasMore(false); // demo
+      setHasMore(false); // just for demo
     }, 1000);
   };
 
-  /* -------- Loading -------- */
   if (loading) {
     return (
         <div className="min-h-screen bg-slate-50">
@@ -70,7 +70,6 @@ const Events: React.FC = () => {
     );
   }
 
-  /* -------- Page -------- */
   return (
       <div className="min-h-screen bg-slate-50">
         <Navbar />
@@ -83,10 +82,19 @@ const Events: React.FC = () => {
 
           <EventFilterBar onFiltersChange={handleFiltersChange} />
 
-          {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             {filteredEvents.map((e) => (
-                <EventCard key={e.id} {...e} onClick={() => handleEventClick(e.id)} />
+                <EventCard
+                    key={e._id}
+                    title={e.title}
+                    date={new Date(e.dateTime).toLocaleDateString()}
+                    time={new Date(e.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    club={e.clubId?.name || 'General'}
+                    location={e.location}
+                    attendees={e.attendees || 0}
+                    onClick={() => handleEventClick(e._id)}
+                    imgSrc="/event-placeholder.jpg"
+                />
             ))}
           </div>
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
+import placeholderImg from '../../assets/images/event-placeholder.jpg'
 
 const EventBanner = ({ event, onBack }) => {
   return (
     <div className="relative h-96 overflow-hidden rounded-2xl mb-8">
       <img
-        src={event.imgSrc}
+        src={event.imgSrc || placeholderImg}
         alt={event.title}
         className="w-full h-full object-cover"
       />
@@ -25,14 +26,14 @@ const EventBanner = ({ event, onBack }) => {
         <div className="max-w-4xl">
           <div className="mb-4">
             <span className="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-              {event.category}
+              {event.category || 'Event'}
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            {event.title}
+            {event.title || 'Untitled Event'}
           </h1>
           <p className="text-xl text-white/90 max-w-2xl">
-            {event.description}
+            {event.description || 'No description available.'}
           </p>
         </div>
       </div>

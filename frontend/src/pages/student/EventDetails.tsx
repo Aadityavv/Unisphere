@@ -6,12 +6,12 @@ import EventBanner from '../../components/student/EventBanner';
 import EventMeta from '../../components/student/EventMeta';
 import RegisterButton from '../../components/student/RegisterButton';
 import StudentsAlsoAttended from '../../components/student/StudentsAlsoAttended';
-import { getEventById, getEvents, registerEvent } from '../../utils/apiMock';
+import API, { fetchEventById, fetchAllEvents } from '../../utils/api';
 
 const EventDetails: React.FC = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const id = Number(eventId);               // convert route param → number
+  const id = eventId!;
 
   const [event, setEvent] = useState<any | null>(null);
   const [relatedEvents, setRelatedEvents] = useState<any[]>([]);
@@ -21,12 +21,12 @@ const EventDetails: React.FC = () => {
     const fetchEventDetails = async () => {
       try {
         const [eventData, allEvents] = await Promise.all([
-          getEventById(id),
-          getEvents(),
+          fetchEventById(id),
+          fetchAllEvents(),
         ]);
 
         setEvent(eventData);
-        const related = allEvents.filter((e) => e.id !== id).slice(0, 3);
+        const related = allEvents.filter((e: any) => e._id !== id).slice(0, 3);
         setRelatedEvents(related);
       } catch (error) {
         console.error('Error fetching event details:', error);
@@ -35,13 +35,15 @@ const EventDetails: React.FC = () => {
       }
     };
 
-    if (!isNaN(id)) fetchEventDetails();
+    fetchEventDetails();
   }, [id]);
 
-  const handleRegister = async (eventId: number) => {
+  const handleRegister = async () => {
     try {
-      const result = await registerEvent(eventId);
-      if (result.success) setEvent((prev) => prev && { ...prev, registered: true });
+      const res = await API.post(`/registration/events/${id}/register`);
+      if (res.status === 201) {
+        setEvent((prev: any) => ({ ...prev, registered: true }));
+      }
     } catch (e) {
       console.error('Error registering:', e);
     }
@@ -49,7 +51,6 @@ const EventDetails: React.FC = () => {
 
   const handleBack = () => navigate('/events');
 
-  /* ---------- Loading & Not-found states ---------- */
   if (loading) {
     return (
         <div className="min-h-screen bg-slate-50">
@@ -73,7 +74,6 @@ const EventDetails: React.FC = () => {
     );
   }
 
-  /* ---------- Render page ---------- */
   return (
       <div className="min-h-screen bg-slate-50">
         <Navbar />
@@ -82,7 +82,6 @@ const EventDetails: React.FC = () => {
           <EventBanner event={event} onBack={handleBack} />
           <EventMeta event={event} />
 
-          {/* Registration Card */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
             <div className="flex items-center justify-between">
               <div>
@@ -97,13 +96,11 @@ const EventDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Description */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
             <h2 className="text-xl font-bold text-slate-900 mb-4">About This Event</h2>
             <p className="text-slate-600 leading-relaxed">{event.description}</p>
           </div>
 
-          {/* Related Events */}
           {relatedEvents.length > 0 && <StudentsAlsoAttended events={relatedEvents} />}
         </main>
 

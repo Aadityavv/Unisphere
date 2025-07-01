@@ -18,56 +18,60 @@ const RegisteredEventCard = ({ event }) => {
     }
   };
 
-  return (
-    <>
-      <div 
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 cursor-pointer"
-        onClick={() => setShowQRModal(true)}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-slate-900 text-lg">{event.title}</h3>
-          <div className="flex items-center space-x-2">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(event.status)}`}>
-              {event.status}
-            </span>
-            <QrCode className="h-5 w-5 text-emerald-600" />
-          </div>
-        </div>
-        
-        <div className="space-y-2 text-sm text-slate-600">
-          <div className="flex items-center space-x-2">
-            <Calendar className="h-4 w-4 text-emerald-500" />
-            <span>{event.date}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Clock className="h-4 w-4 text-blue-500" />
-            <span>{event.time}</span>
-          </div>
-        </div>
-        
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-sm text-slate-500">Click to view QR code</p>
-        </div>
-      </div>
+  const dateObj = new Date(event.dateTime);
+  const date = dateObj.toLocaleDateString();
+  const time = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      {/* QR Modal */}
-      {showQRModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-slate-900">{event.title}</h3>
-              <button
-                onClick={() => setShowQRModal(false)}
-                className="text-slate-400 hover:text-slate-600"
-              >
-                ✕
-              </button>
+  return (
+      <>
+        <div
+            className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 cursor-pointer"
+            onClick={() => setShowQRModal(true)}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-slate-900 text-lg">{event.title}</h3>
+            <div className="flex items-center space-x-2">
+            <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(event.status || 'Confirmed')}`}>
+              {event.status || 'Confirmed'}
+            </span>
+              <QrCode className="h-5 w-5 text-emerald-600" />
             </div>
-            <QRDisplay eventId={event.id} />
+          </div>
+
+          <div className="space-y-2 text-sm text-slate-600">
+            <div className="flex items-center space-x-2">
+              <Calendar className="h-4 w-4 text-emerald-500" />
+              <span>{date}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="h-4 w-4 text-blue-500" />
+              <span>{time}</span>
+            </div>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-sm text-slate-500">Click to view QR code</p>
           </div>
         </div>
-      )}
-    </>
+
+        {/* QR Modal */}
+        {showQRModal && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-2xl p-6 max-w-md w-full">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-slate-900">{event.title}</h3>
+                  <button
+                      onClick={() => setShowQRModal(false)}
+                      className="text-slate-400 hover:text-slate-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <QRDisplay eventId={event._id} />
+              </div>
+            </div>
+        )}
+      </>
   );
 };
 

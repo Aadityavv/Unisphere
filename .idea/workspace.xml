@@ -4,7 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f0a5e0a-5ea0-429f-9f64-754f4c6c7165" name="Changes" comment="" />
+    <list default="true" id="2f0a5e0a-5ea0-429f-9f64-754f4c6c7165" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/images/event-placeholder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/ClubCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/ClubCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/ClubEventList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/ClubEventList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/ClubHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/ClubHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/ClubMemberList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/ClubMemberList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/EventBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/EventBanner.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/EventCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/EventCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/EventFilterBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/EventFilterBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/EventMeta.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/EventMeta.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/RegisterButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/RegisterButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/RegisteredEventCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/RegisteredEventCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/StatsCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/StatsCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/StudentsAlsoAttended.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/StudentsAlsoAttended.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/SuggestedEvents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/SuggestedEvents.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/student/UpcomingEvents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/student/UpcomingEvents.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/Signup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/Signup.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/ClubDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/ClubDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/Clubs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/Clubs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/EventDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/EventDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/Events.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/Events.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/student/MyEvents.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/student/MyEvents.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,6 +64,9 @@
     &quot;accountId&quot;: &quot;d2f595d5-01fd-4933-a5ad-14fb23e91177&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -42,30 +75,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/pansh/WebstormProjects/UniSphere/frontend/src/components&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\pansh\\WebstormProjects\\UniSphere\\frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/pansh/WebstormProjects/UniSphere/frontend/src/assets/images",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\pansh\\WebstormProjects\\UniSphere\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\assets\images" />
       <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\components" />
       <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\pages" />
       <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\utils" />
       <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\pages\student" />
-      <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\pansh\WebstormProjects\UniSphere\frontend\src\components\landing" />
@@ -89,7 +122,7 @@
       <updated>1751226697338</updated>
       <workItem from="1751226698912" duration="8024000" />
       <workItem from="1751290452033" duration="10758000" />
-      <workItem from="1751345108333" duration="2333000" />
+      <workItem from="1751345108333" duration="10878000" />
     </task>
     <servers />
   </component>
