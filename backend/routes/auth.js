@@ -46,4 +46,9 @@ router.get('/me', auth, async (req, res) => {
   res.json(req.user);
 });
 
+router.get('/test', (req, res) => {
+  res.json({ message: 'auth.js route is working ✅' });
+});
+
+
 module.exports = router; 
