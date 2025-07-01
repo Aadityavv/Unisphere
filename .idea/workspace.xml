@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2f0a5e0a-5ea0-429f-9f64-754f4c6c7165" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/faculty/DeletePrompt.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/faculty/DeletePrompt.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/faculty/EventForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/faculty/EventForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/events.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/events.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/faculty/FacultyClubCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/faculty/FacultyClubCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/faculty/FacultyEventCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/faculty/FacultyEventCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/faculty/Clubs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faculty/Clubs.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/faculty/CreateEditEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faculty/CreateEditEvent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/faculty/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faculty/Dashboard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/faculty/Events.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faculty/Events.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +102,7 @@
       <updated>1751226697338</updated>
       <workItem from="1751226698912" duration="8024000" />
       <workItem from="1751290452033" duration="10758000" />
-      <workItem from="1751345108333" duration="22877000" />
+      <workItem from="1751345108333" duration="24832000" />
     </task>
     <servers />
   </component>

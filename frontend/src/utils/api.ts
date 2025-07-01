@@ -28,5 +28,10 @@ export const getAttendanceByUserId = async (userId: string) => {
     return res.data;
 };
 
+export const getFacultyClubs = async () => {
+    const res = await API.get('/clubs');
+    return res.data;
+};
+
 
 export default API;

@@ -28,13 +28,20 @@ router.get('/', async (req, res) => {
     let filter = {};
     if (club) filter.clubId = club;
     if (date) filter.dateTime = { $gte: new Date(date) };
-    // category can be added if category field exists
-    const events = await Event.find(filter).populate('clubId organizerId');
+
+    const events = await Event.find(filter).populate('clubId organizerId').lean();
+
+    // 🔢 Add registration count for each event
+    for (let ev of events) {
+      ev.registrationCount = await Registration.countDocuments({ eventId: ev._id });
+    }
+
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // Get event by id
 router.get('/:id', auth, async (req, res) => {
@@ -81,5 +88,21 @@ router.put('/:id', auth, requireRole('faculty'), async (req, res) => {
 });
 
 router.get('/faculty/dashboard', auth, requireRole('faculty'), getFacultyDashboard);
+
+// Delete event
+router.delete('/:id', auth, requireRole('faculty'), async (req, res) => {
+  try {
+    const event = await Event.findOneAndDelete({
+      _id: req.params.id,
+      organizerId: req.user._id
+    });
+    if (!event) return res.status(404).json({ message: 'Event not found or unauthorized' });
+
+    res.json({ message: 'Event deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 module.exports = router; 

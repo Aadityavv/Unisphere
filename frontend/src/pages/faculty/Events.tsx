@@ -35,7 +35,7 @@ const FacultyEvents: React.FC = () => {
       const createdEvents = res.data.filter((e: any) => e.organizerId?._id === JSON.parse(localStorage.getItem('user') || '{}')._id);
 
       const enriched = createdEvents.map((event: any) => ({
-        id: event._id,
+        _id: event._id,
         title: event.title,
         description: event.description,
         date: dayjs(event.dateTime).format('YYYY-MM-DD'),
@@ -45,7 +45,7 @@ const FacultyEvents: React.FC = () => {
         category: event.category || 'General',
         club: event.clubId?.name || 'N/A',
         status: dayjs(event.dateTime).isAfter(dayjs()) ? 'upcoming' : 'completed',
-        registeredCount: event.registeredUsers?.length || 0,
+        registeredCount: event.registrationCount || 0,
         maxCapacity: 50 // or dynamic if available
       }));
 
@@ -180,11 +180,7 @@ const FacultyEvents: React.FC = () => {
           ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredEvents.map((event) => (
-                    <FacultyEventCard
-                        key={event.id}
-                        event={event}
-                        onDelete={openDeletePrompt}
-                    />
+                    <FacultyEventCard event={{ ...event, _id: event.id }} onDelete={openDeletePrompt} />
                 ))}
               </div>
           )}

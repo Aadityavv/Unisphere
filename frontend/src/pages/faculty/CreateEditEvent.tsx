@@ -18,7 +18,7 @@ const CreateEditEvent: React.FC<CreateEditEventProps> = ({ mode }) => {
   const [isLoadingData, setIsLoadingData] = useState(mode === 'edit');
   const [clubs, setClubs] = useState([]);
 
-  // Fetch clubs from backend
+  // Fetch all clubs on mount
   useEffect(() => {
     const fetchClubs = async () => {
       try {
@@ -31,9 +31,10 @@ const CreateEditEvent: React.FC<CreateEditEventProps> = ({ mode }) => {
     fetchClubs();
   }, []);
 
+  // Load event details if editing
   useEffect(() => {
     if (mode === 'edit' && id) {
-      loadEventData(id);
+      loadEventData(id); // Use string ID (MongoDB ObjectId)
     }
   }, [mode, id]);
 
@@ -44,7 +45,10 @@ const CreateEditEvent: React.FC<CreateEditEventProps> = ({ mode }) => {
       setInitialData({
         title: data.title,
         date: data.dateTime.split('T')[0],
-        time: new Date(data.dateTime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+        time: new Date(data.dateTime).toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
         location: data.location,
         category: data.category,
         club: data.clubId?._id || '',
@@ -59,17 +63,25 @@ const CreateEditEvent: React.FC<CreateEditEventProps> = ({ mode }) => {
     }
   };
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (formData: any) => {
     setIsLoading(true);
     try {
-      const { club, date, time, ...rest } = data;
+      const { club, date, time, ...rest } = formData;
       const dateTime = new Date(`${date}T${time}`);
 
       if (mode === 'create') {
-        await axios.post('/events/create', { ...rest, clubId: club, dateTime });
+        await axios.post('/events/create', {
+          ...rest,
+          clubId: club,
+          dateTime
+        });
         toast.success('Event created successfully!');
       } else if (mode === 'edit' && id) {
-        await axios.put(`/events/${id}`, { ...rest, clubId: club, dateTime });
+        await axios.put(`/events/${id}`, {
+          ...rest,
+          clubId: club,
+          dateTime
+        });
         toast.success('Event updated successfully!');
       }
 
@@ -108,12 +120,14 @@ const CreateEditEvent: React.FC<CreateEditEventProps> = ({ mode }) => {
                 {mode === 'create' ? 'Create New Event' : 'Edit Event'}
               </h1>
               <p className="text-gray-600 mt-2">
-                {mode === 'create' ? 'Fill in the details to create a new event' : 'Update the event information'}
+                {mode === 'create'
+                    ? 'Fill in the details to create a new event'
+                    : 'Update the event information'}
               </p>
             </div>
           </div>
 
-          {/* Form */}
+          {/* Event Form */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <EventForm
                 initialData={initialData}
