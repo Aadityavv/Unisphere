@@ -18,7 +18,7 @@ const ClubDetails: React.FC = () => {
             try {
                 const [clubRes, eventsRes] = await Promise.all([
                     API.get(`/clubs/${clubId}`),
-                    API.get(`/events/club/${clubId}`),
+                    API.get(`/clubs/club/${clubId}`),
                 ]);
 
                 setClub(clubRes.data);

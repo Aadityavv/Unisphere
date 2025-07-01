@@ -3,6 +3,8 @@ const Club = require('../models/Club');
 const Membership = require('../models/Membership');
 const auth = require('../middleware/auth');
 const { requireRole } = require('../middleware/role');
+const Event = require('../models/Event');
+
 
 const router = express.Router();
 
@@ -62,11 +64,14 @@ router.post('/:id/join', auth, requireRole('student'), async (req, res) => {
 
 router.get('/club/:clubId', async (req, res) => {
   try {
+    console.log('Fetching events for club:', req.params.clubId);  // debug
     const events = await Event.find({ clubId: req.params.clubId });
     res.json(events);
   } catch (err) {
+    console.error('Error in /club/:clubId route:', err);  // log error
     res.status(500).json({ message: err.message });
   }
 });
+
 
 module.exports = router; 
