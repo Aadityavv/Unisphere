@@ -40,7 +40,8 @@ const EventDetails: React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await API.post(`/registration/${id}/register`);
+      // Update this line to use '/api/registration/events/:id/register'
+      const res = await API.post(`/registration/events/${id}/register`);  // Corrected URL path
       if (res.status === 201) {
         setEvent((prev: any) => ({ ...prev, registered: true }));
       }
@@ -48,6 +49,8 @@ const EventDetails: React.FC = () => {
       console.error('Error registering:', e);
     }
   };
+
+
 
   const handleBack = () => navigate('/events');
 

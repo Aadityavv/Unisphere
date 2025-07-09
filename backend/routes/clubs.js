@@ -73,5 +73,20 @@ router.get('/club/:clubId', async (req, res) => {
   }
 });
 
+// Check if the student is already a member of the club
+router.get('/:id/joined', auth, requireRole('student'), async (req, res) => {
+  try {
+    const membership = await Membership.findOne({ userId: req.user._id, clubId: req.params.id });
+    if (membership) {
+      return res.status(200).json({ joined: true });
+    } else {
+      return res.status(200).json({ joined: false });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 module.exports = router; 
