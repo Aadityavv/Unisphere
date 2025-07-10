@@ -34,31 +34,38 @@ interface DashboardData {
 // ✅ API Function
 // ------------------------------
 export const getStudentDashboardData = async (userId: string): Promise<DashboardData> => {
-  const [eventRes, attendanceRes] = await Promise.all([
-    API.get(`/events/student/${userId}`),
-    API.get(`/attendance/user/${userId}`),
-  ]);
+  try {
+    const [eventRes, attendanceRes, clubsRes] = await Promise.all([
+      API.get(`/events/student/${userId}`),
+      API.get(`/attendance/user/${userId}`),
+      API.get(`/clubs/user/${userId}`),  // ✅ Get real joined clubs
+    ]);
 
-  const registeredEvents = eventRes.data;
-  const attendanceHistory = attendanceRes.data;
+    const registeredEvents = eventRes.data;
+    const attendanceHistory = attendanceRes.data;
+    const joinedClubs = clubsRes.data;
 
-  const eventsAttended = attendanceHistory.filter((a: any) => a.status === 'present').length;
+    const eventsAttended = attendanceHistory.filter((a: any) => a.status === 'present').length;
+    const clubsJoined = joinedClubs.length;
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const clubsJoined = user?.clubs?.length || 0;
+    // Temporary engagementScore logic until CORS fix
+    const engagementScore = Math.min(100, eventsAttended * 10 + clubsJoined * 5);
 
-  const engagementScore = Math.min(100, eventsAttended * 10 + clubsJoined * 5);
-
-  return {
-    stats: {
-      eventsAttended,
-      clubsJoined,
-      engagementScore,
-    },
-    upcomingEvents: registeredEvents.filter((e: any) => new Date(e.dateTime) > new Date()),
-    suggestedEvents: registeredEvents.slice(0, 2),
-  };
+    return {
+      stats: {
+        eventsAttended,
+        clubsJoined,
+        engagementScore,
+      },
+      upcomingEvents: registeredEvents.filter((e: any) => new Date(e.dateTime) > new Date()),
+      suggestedEvents: registeredEvents.slice(0, 2),
+    };
+  } catch (error) {
+    console.error("❌ Error in getStudentDashboardData:", error);
+    throw error;
+  }
 };
+
 
 // ------------------------------
 // ✅ Main Component
@@ -123,21 +130,21 @@ const Dashboard: React.FC = () => {
                 value={dashboardData?.stats.eventsAttended || 0}
                 icon={Calendar}
                 trend="up"
-                trendValue="+3"
+                trendValue={`+${dashboardData?.stats.eventsAttended || 0}`}
             />
             <StatsCard
                 title="Clubs Joined"
                 value={dashboardData?.stats.clubsJoined || 0}
                 icon={Users}
                 trend="up"
-                trendValue="+1"
+                trendValue={`+${dashboardData?.stats.clubsJoined || 0}`}
             />
             <StatsCard
                 title="Engagement Score"
                 value={`${dashboardData?.stats.engagementScore || 0}%`}
                 icon={TrendingUp}
                 trend="up"
-                trendValue="+5%"
+                trendValue={`+${dashboardData?.stats.engagementScore || 0}%`}
             />
           </div>
 
