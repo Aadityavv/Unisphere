@@ -213,8 +213,15 @@ const AttendanceMarking: React.FC = () => {
 
                     <ManualAttendanceToggler
                         students={attendanceData.students}
-                        onToggleAttendance={handleToggleAttendance}
+                        eventId={attendanceData.eventId}
+                        onUpdate={(updatedStudent) => {
+                            const updatedList = attendanceData.students.map((s) =>
+                                s._id === updatedStudent._id ? { ...s, status: updatedStudent.status } : s
+                            );
+                            setAttendanceData({ ...attendanceData, students: updatedList });
+                        }}
                     />
+
 
                     <AttendanceTable
                         students={attendanceData?.students || []}

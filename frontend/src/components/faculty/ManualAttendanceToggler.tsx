@@ -1,96 +1,141 @@
-// src/components/faculty/QRScannerComponent.tsx
+// src/components/faculty/ManualAttendanceToggler.tsx
 import React, { useState } from 'react';
-import { QrCode, Camera, X } from 'lucide-react';
+import { Check, X, Clock } from 'lucide-react';
+import toast from 'react-hot-toast';
+import axios from '../../utils/api';
 
-interface QRScannerComponentProps {
-  onScan: (payload: string) => void;
-  isActive: boolean;
-  onToggle: () => void;
+interface Student {
+    _id: string; // 🧠 ID must match backend Mongo _id
+    name: string;
+    rollNumber: string;
+    status: 'present' | 'absent' | 'late';
 }
 
-const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
-                                                                 onScan,
-                                                                 isActive,
-                                                                 onToggle,
-                                                               }) => {
-  const [scannedCode, setScannedCode] = useState('');
+interface ManualAttendanceTogglerProps {
+    students: Student[];
+    eventId: string;
+    onUpdate: (updatedStudent: Student) => void; // callback to update local state in Attendance.tsx
+}
 
-  const handleManualInput = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (scannedCode.trim()) {
-      onScan(scannedCode.trim());
-      setScannedCode('');
-    }
-  };
+const ManualAttendanceToggler: React.FC<ManualAttendanceTogglerProps> = ({
+                                                                             students,
+                                                                             eventId,
+                                                                             onUpdate,
+                                                                         }) => {
+    const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-  return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        {/* header */}
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-            <QrCode className="w-5 h-5 mr-2" />
-            QR Code Scanner
-          </h3>
-          <button
-              onClick={onToggle}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  isActive
-                      ? 'bg-red-600 text-white hover:bg-red-700'
-                      : 'bg-green-600 text-white hover:bg-green-700'
-              }`}
-          >
-            {isActive ? (
-                <>
-                  <X className="w-4 h-4 mr-2 inline" />
-                  Stop Scanner
-                </>
-            ) : (
-                <>
-                  <Camera className="w-4 h-4 mr-2 inline" />
-                  Start Scanner
-                </>
-            )}
-          </button>
+    const updateAttendance = async (studentId: string, status: 'present' | 'absent' | 'late') => {
+        try {
+            setUpdatingId(studentId);
+
+            const res = await axios.put(
+                `/attendance/event/${eventId}/student/${studentId}`,
+                { status }
+            );
+
+            onUpdate({
+                _id: studentId,
+                name: res.data.userId?.name || '',
+                rollNumber: res.data.userId?.rollNumber || '',
+                status: res.data.status,
+            });
+
+            toast.success(`Marked ${res.data.status} successfully`);
+        } catch (err) {
+            console.error('Failed to update attendance:', err);
+            toast.error('Failed to update attendance');
+        } finally {
+            setUpdatingId(null);
+        }
+    };
+
+    const getStatusIcon = (status: string) => {
+        switch (status) {
+            case 'present':
+                return <Check className="w-4 h-4 text-green-600" />;
+            case 'absent':
+                return <X className="w-4 h-4 text-red-600" />;
+            case 'late':
+                return <Clock className="w-4 h-4 text-yellow-600" />;
+            default:
+                return <X className="w-4 h-4 text-gray-400" />;
+        }
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'present':
+                return 'bg-green-100 text-green-800';
+            case 'absent':
+                return 'bg-red-100 text-red-800';
+            case 'late':
+                return 'bg-yellow-100 text-yellow-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    };
+
+    return (
+        <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Manual Attendance</h3>
+
+            <div className="space-y-3">
+                {students.map((student) => (
+                    <div key={student._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-medium text-xs">
+                  {student.name.split(' ').map((n) => n[0]).join('')}
+                </span>
+                            </div>
+                            <div>
+                                <h4 className="font-medium text-gray-900">{student.name}</h4>
+                                <p className="text-sm text-gray-600">{student.rollNumber}</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+              <span
+                  className={`px-2 py-1 text-xs font-medium rounded-full flex items-center ${getStatusColor(
+                      student.status
+                  )}`}
+              >
+                {getStatusIcon(student.status)}
+                  <span className="ml-1 capitalize">{student.status}</span>
+              </span>
+
+                            <div className="flex space-x-1">
+                                <button
+                                    disabled={updatingId === student._id}
+                                    onClick={() => updateAttendance(student._id, 'present')}
+                                    className={`p-1 rounded ${
+                                        student.status === 'present'
+                                            ? 'bg-green-600 text-white'
+                                            : 'bg-gray-200 text-gray-600 hover:bg-green-100'
+                                    }`}
+                                    title="Mark Present"
+                                >
+                                    <Check className="w-4 h-4" />
+                                </button>
+                                <button
+                                    disabled={updatingId === student._id}
+                                    onClick={() => updateAttendance(student._id, 'absent')}
+                                    className={`p-1 rounded ${
+                                        student.status === 'absent'
+                                            ? 'bg-red-600 text-white'
+                                            : 'bg-gray-200 text-gray-600 hover:bg-red-100'
+                                    }`}
+                                    title="Mark Absent"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
-
-        {isActive ? (
-            <div className="space-y-4">
-              <div className="bg-gray-100 rounded-lg p-8 text-center">
-                <QrCode className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600">QR Scanner Active</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Point camera at student QR code to mark attendance
-                </p>
-              </div>
-
-              <div className="border-t pt-4">
-                <form onSubmit={handleManualInput} className="flex space-x-2">
-                  <input
-                      type="text"
-                      value={scannedCode}
-                      onChange={(e) => setScannedCode(e.target.value)}
-                      placeholder="Or enter student ID manually"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <button
-                      type="submit"
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-            </div>
-        ) : (
-            <div className="text-center py-8">
-              <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">
-                Click &quot;Start Scanner&quot; to begin marking attendance
-              </p>
-            </div>
-        )}
-      </div>
-  );
+    );
 };
 
-export default QRScannerComponent;
+export default ManualAttendanceToggler;
