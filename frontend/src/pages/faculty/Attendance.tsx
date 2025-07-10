@@ -217,8 +217,8 @@ const AttendanceMarking: React.FC = () => {
                     />
 
                     <AttendanceTable
-                        students={attendanceData.students}
-                        eventTitle={attendanceData.eventTitle}
+                        students={attendanceData?.students || []}
+                        eventTitle={attendanceData?.eventTitle || ''}
                         onExport={handleExportAttendance}
                     />
                 </div>
