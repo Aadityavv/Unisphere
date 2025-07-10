@@ -118,6 +118,6 @@ def engagement_score(user_id):
 
     return jsonify({"user": user_id, "engagement_score": score})
 
-if _name_ == '_main_':
+if _name_ == '__main__':
     # Ensure the app runs on Render with the correct host and port
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
