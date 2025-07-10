@@ -32,7 +32,7 @@ const Navbar = () => {
     { label: 'Event Approvals', to: '/admin/event-approvals' },
     { label: 'Users', to: '/admin/users' },
     { label: 'Clubs', to: '/admin/clubs' },
-    { label: 'Analytics', to: '/admin/analytics' },
+    // { label: 'Analytics', to: '/admin/analytics' },
   ];
 
   const handleLogout = () => {
