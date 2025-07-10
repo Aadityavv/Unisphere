@@ -87,6 +87,19 @@ router.get('/:id/joined', auth, requireRole('student'), async (req, res) => {
   }
 });
 
+// ✅ Get all clubs a user has joined
+router.get('/user/:userId', auth, requireRole('student'), async (req, res) => {
+  try {
+    const memberships = await Membership.find({ userId: req.params.userId }).populate('clubId');
+    const joinedClubs = memberships.map((m) => m.clubId); // return only club objects
+    res.status(200).json(joinedClubs);
+  } catch (err) {
+    console.error('Error fetching user clubs:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 
 module.exports = router; 
