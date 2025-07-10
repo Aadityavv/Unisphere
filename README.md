@@ -188,7 +188,7 @@ docker run -p 8000:8000 unisphere-ai
 ## 📦 DockerHub Images
 
 | Service    | DockerHub Tag                      |
-|-----------|-----------------------------------|
+|------------|------------------------------------|
 | Frontend   | `samaltman07/unisphere-frontend`   |
 | Backend    | `samaltman07/unisphere-backend`    |
 | AI Service | `samaltman07/unisphere-ai-service` |
@@ -239,13 +239,6 @@ python app.py  # runs on localhost:8000
 | Run AI service locally              | `python app.py` (in `ai-service/`) |
 | Run all services via Docker Compose | `docker-compose up --build`        |
 
----
-
-## 🚀 Production Readiness
-
-* Add `.dockerignore` to all 3 services
-* Set up GitHub Actions in `.github/workflows/` (CI/CD coming soon)
-* Connect Render/Vercel/Fly.io for deployments
 
 ---
 
@@ -257,4 +250,4 @@ python app.py  # runs on localhost:8000
 
 ---
 
-© 2024 UniSphere Project — Built with ❤️ by Team PS-A-A
+© 2025 UniSphere Project — Built with ❤️ by Team PS-AK-AV
