@@ -13,11 +13,11 @@ Welcome to the UniSphere project! This is a full-stack smart campus event manage
 
 ## 🔗 Live Links
 
-| Service       | Link                                                                 |
-|---------------|----------------------------------------------------------------------|
-| Frontend      | https://uni-sphere-lqg8ta2tc-sam-altmans-projects-74c7fb6d.vercel.app/ |
-| Backend API   | https://unisphere-backend-b327.onrender.com/                        |
-| AI Service    | https://ai-service-aie5.onrender.com/                               |
+| Service       | Link                                         |
+|---------------|----------------------------------------------|
+| Frontend      | https://uni-sphere-psi.vercel.app/           |
+| Backend API   | https://unisphere-backend-b327.onrender.com/ |
+| AI Service    | https://ai-service-aie5.onrender.com/        |
 
 ---
 
