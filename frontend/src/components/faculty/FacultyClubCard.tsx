@@ -69,7 +69,7 @@ const FacultyClubCard: React.FC<FacultyClubCardProps> = ({ club }) => {
             </Link>
 
             <Link
-                to={`/faculty/clubs/${club._id}/manage`}
+                to={`/faculty/clubs/${club._id}/edit`}
                 className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
             >
               <Settings className="w-4 h-4" />

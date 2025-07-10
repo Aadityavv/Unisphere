@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import FacultyClubCard from '../../components/faculty/FacultyClubCard';
 import { getFacultyClubs } from '../../utils/api';
 import Navbar from '../../components/shared/Navbar.tsx'
+import {Link} from "react-router-dom";
 
 const FacultyClubs: React.FC = () => {
   const [clubs, setClubs] = useState<any[]>([]);
@@ -60,12 +61,25 @@ const FacultyClubs: React.FC = () => {
               <h1 className="text-3xl font-bold text-gray-900">Club Management</h1>
               <p className="text-gray-600 mt-2">Manage clubs and their events</p>
             </div>
+            <div className="flex items-center justify-between">
+              <h1 className="text-3xl font-bold text-gray-900">Club Management</h1>
+              <p className="text-gray-600 mt-2">Manage clubs and their events</p>
+              <Link
+                  to="/faculty/create-club"
+                  className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                + Create Club
+              </Link>
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <StatCard icon={<Users className="w-6 h-6 text-blue-600" />} label="Total Clubs" value={clubs.length} bg="bg-blue-100" />
-              <StatCard icon={<Users className="w-6 h-6 text-green-600" />} label="Total Members" value={clubs.reduce((sum, c) => sum + (c.memberCount || 0), 0)} bg="bg-green-100" />
-              <StatCard icon={<Users className="w-6 h-6 text-purple-600" />} label="Total Events" value={clubs.reduce((sum, c) => sum + (c.eventsCount || 0), 0)} bg="bg-purple-100" />
+              <StatCard icon={<Users className="w-6 h-6 text-blue-600"/>} label="Total Clubs" value={clubs.length}
+                        bg="bg-blue-100"/>
+              <StatCard icon={<Users className="w-6 h-6 text-green-600"/>} label="Total Members"
+                        value={clubs.reduce((sum, c) => sum + (c.memberCount || 0), 0)} bg="bg-green-100"/>
+              <StatCard icon={<Users className="w-6 h-6 text-purple-600"/>} label="Total Events"
+                        value={clubs.reduce((sum, c) => sum + (c.eventsCount || 0), 0)} bg="bg-purple-100"/>
             </div>
 
             {/* Filters */}
@@ -73,7 +87,7 @@ const FacultyClubs: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
                 <div className="flex-1 max-w-md">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"/>
                     <input
                         type="text"
                         placeholder="Search clubs..."
@@ -105,7 +119,7 @@ const FacultyClubs: React.FC = () => {
                 <div className="text-center text-gray-600">Loading clubs...</div>
             ) : filteredClubs.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                  <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <Users className="w-12 h-12 text-gray-400 mx-auto mb-4"/>
                   <h3 className="text-lg font-medium text-gray-900 mb-2">No Clubs Found</h3>
                   <p className="text-gray-600">
                     {clubs.length === 0 ? "No clubs are available." : "No clubs match your current filters."}
@@ -114,7 +128,7 @@ const FacultyClubs: React.FC = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredClubs.map(club => (
-                      <FacultyClubCard key={club._id || club.id} club={club} />
+                      <FacultyClubCard key={club._id || club.id} club={club}/>
                   ))}
                 </div>
             )}
@@ -123,7 +137,7 @@ const FacultyClubs: React.FC = () => {
   );
 };
 
-const StatCard = ({ icon, label, value, bg }: any) => (
+const StatCard = ({icon, label, value, bg}: any) => (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex items-center">
         <div className={`p-3 rounded-lg ${bg}`}>{icon}</div>

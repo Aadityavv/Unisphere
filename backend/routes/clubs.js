@@ -40,6 +40,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', auth, requireRole('faculty'), async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    const club = await Club.findByIdAndUpdate(
+        req.params.id,
+        { name, description },
+        { new: true }
+    );
+    res.status(200).json(club);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 // Get club members
 router.get('/:id/members', async (req, res) => {
   try {
